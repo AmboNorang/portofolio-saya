@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio Saya - Day 2</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Portofolio Saya</h1>
+        <nav>
+            <a href="#tentang">Tentang Saya</a> | 
+            <a href="https://google.com" target="_blank">Cari Info</a>
+        </nav>
+        <button id="btn-tema" style="margin-top: 10px; padding: 5px 10px; cursor: pointer;">Mode Gelap</button>
+    </header>
+
+    <hr>
+
+    <main id="tentang" class="container">
+        <section>
+            <h2>Profil</h2>
+            <p>Saya adalah seorang calon <strong>Frontend Developer</strong> yang sedang bersemangat belajar.</p>
+            <img src="https://cdn-5.motorsport.com/images/mgl/0ZR74Db0/s300/marc-marquez-ducati-team.webp" alt="Foto Profil" width="150">
+        </section>
+    
+        <section>
+            <h2>Rencana Belajar Minggu Ini</h2>
+            
+            <ul id="daftar-rencana"></ul>
+        
+            <div style="margin-top: 15px;">
+                <input type="text" id="input-rencana" placeholder="Ketik rencana baru...">
+                <button id="btn-tambah">Tambah</button>
+            </div>
+        
+            <br>
+            <button class="btn-kontak">Hubungi Saya</button>
+        </section>
+    </main>
+
+    <hr>
+
+    <footer>
+        <p>&copy; 2026 Nama Kamu - Semangat Belajar!</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

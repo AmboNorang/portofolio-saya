@@ -1,0 +1,117 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Mengubah tampilan seluruh halaman */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4; /* Warna abu-abu sangat muda */
+    color: #333; /* Warna teks abu-abu gelap agar nyaman dibaca */
+    line-height: 1.6;
+    margin: 40px;
+}
+
+/* Menghias Header */
+header {
+    background-color: #2c3e50; /* Biru gelap */
+    color: white;
+    padding: 50px;
+    text-align: center;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    /* Tambahkan ini */
+    display: flex;
+    flex-direction: column; /* Judul di atas, menu di bawah */
+    align-items: center;    /* Semuanya di tengah */
+    gap: 15px;
+}
+
+.container {
+    display: flex;
+    gap: 20px;
+    /* Materi Baru: */
+    justify-content: center; /* Mengatur perataan horizontal (kiri, tengah, kanan) */
+    align-items: stretch;    /* Mengatur perataan vertikal agar tinggi kotak sama */
+}
+
+section {
+    background-color: white;
+    margin-bottom: 20px; /* Jarak antar section di luar */
+    padding: 20px;       /* Jarak teks ke dinding kotak di dalam */
+    border-left: 5px solid #3498db; /* Garis hiasan di samping kiri */
+    border-radius: 5px;
+    flex: 1;       /* Membagi ruang agar kedua kotak sama lebarnya */
+}
+
+.btn-kontak {
+    background-color: #3498db;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 25px; /* Membuat sudut tombol sangat bulat */
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer; /* Mengubah kursor jadi tangan saat di atas tombol */
+    transition: all 0.3s ease; /* Membuat perubahan warna jadi halus */
+    margin-top: 15px;
+}
+
+/* Efek saat tombol disentuh mouse */
+.btn-kontak:hover {
+    background-color: #2980b9; /* Biru lebih gelap */
+    transform: scale(1.05);    /* Membuat tombol sedikit membesar */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+footer {
+    margin-top: 20px; /* Jarak antar section di luar */
+}
+
+/* Class yang akan diaktifkan lewat JS */
+.dark-theme {
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+}
+
+.dark-theme section {
+    background-color: #333 !important;
+    color: white;
+    border-left: 5px solid #f1c40f; /* Kuning agar kontras di mode gelap */
+}
+
+/* Menghias Link Navigasi */
+nav a {
+    color: #3498db; /* Biru cerah */
+    text-decoration: none; /* Menghapus garis bawah */
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #e74c3c; /* Berubah jadi merah saat kursor di atasnya */
+}
+
+/* Menghias Gambar agar bulat */
+img {
+    border: 5px solid white;
+    border-radius: 50%; /* Membuat gambar jadi lingkaran */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Memberi bayangan halus */
+}
+
+@media (max-width: 600px) {
+    .container {
+        flex-direction: column;
+    }
+}
+
+/* Jika lebar layar maksimal 768px (ukuran tablet/HP) */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Ubah dari samping ke tumpuk bawah */
+    }
+
+    body {
+        margin: 10px; /* Kurangi margin layar agar tidak terlalu sempit */
+    }
+}
