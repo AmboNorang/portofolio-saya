@@ -108,3 +108,54 @@ if (tombolKontak) {
 if (tombolQuote) {
     tombolQuote.addEventListener('click', ambilQuote);
 }
+
+// ==========================================
+// FITUR TIMER BELAJAR (POMODORO)
+// ==========================================
+
+let waktuTersisa = 25 * 60; // 25 menit dalam detik
+let timerBerjalan = null;
+
+const displayTimer = document.getElementById('display-timer');
+const tombolStart = document.getElementById('btn-start');
+const tombolPause = document.getElementById('btn-pause');
+const tombolResetTimer = document.getElementById('btn-reset-timer');
+
+function updateTampilanTimer() {
+    const menit = Math.floor(waktuTersisa / 60);
+    const detik = waktuTersisa % 60;
+    
+    // Menampilkan format 00:00 (menggunakan padStart agar ada angka 0 di depan jika di bawah 10)
+    displayTimer.innerText = `${menit.toString().padStart(2, '0')}:${detik.toString().padStart(2, '0')}`;
+}
+
+function jalankanTimer() {
+    if (timerBerjalan) return; // Mencegah klik ganda yang mempercepat timer
+
+    timerBerjalan = setInterval(() => {
+        if (waktuTersisa > 0) {
+            waktuTersisa--;
+            updateTampilanTimer();
+        } else {
+            clearInterval(timerBerjalan);
+            timerBerjalan = null;
+            alert("Waktu belajar selesai! Waktunya istirahat sebentar.");
+        }
+    }, 1000); // Berjalan setiap 1 detik
+}
+
+function jedaTimer() {
+    clearInterval(timerBerjalan);
+    timerBerjalan = null;
+}
+
+function resetTimer() {
+    jedaTimer();
+    waktuTersisa = 25 * 60;
+    updateTampilanTimer();
+}
+
+// Pasang Event Listeners
+tombolStart.addEventListener('click', jalankanTimer);
+tombolPause.addEventListener('click', jedaTimer);
+tombolResetTimer.addEventListener('click', resetTimer);
