@@ -113,7 +113,7 @@ if (tombolQuote) {
 // FITUR TIMER BELAJAR (POMODORO)
 // ==========================================
 
-let waktuTersisa = 25 * 60; // 25 menit dalam detik
+let waktuTersisa = 20; // 25 menit dalam detik
 let timerBerjalan = null;
 
 const displayTimer = document.getElementById('display-timer');
@@ -130,18 +130,28 @@ function updateTampilanTimer() {
 }
 
 function jalankanTimer() {
-    if (timerBerjalan) return; // Mencegah klik ganda yang mempercepat timer
+    if (timerBerjalan) return;
 
     timerBerjalan = setInterval(() => {
         if (waktuTersisa > 0) {
             waktuTersisa--;
             updateTampilanTimer();
+
+            // CEK: Jika sisa 10 detik, tambahkan efek berkedip
+            const timerCard = document.getElementById('timer-area');
+            if (waktuTersisa <= 10) {
+                timerCard.classList.add('timer-warning');
+            } else {
+                timerCard.classList.remove('timer-warning');
+            }
+
         } else {
             clearInterval(timerBerjalan);
             timerBerjalan = null;
+            document.getElementById('timer-area').classList.remove('timer-warning'); // Hapus efek saat selesai
             alert("Waktu belajar selesai! Waktunya istirahat sebentar.");
         }
-    }, 1000); // Berjalan setiap 1 detik
+    }, 1000);
 }
 
 function jedaTimer() {
@@ -151,7 +161,7 @@ function jedaTimer() {
 
 function resetTimer() {
     jedaTimer();
-    waktuTersisa = 25 * 60;
+    waktuTersisa = 20;
     updateTampilanTimer();
 }
 

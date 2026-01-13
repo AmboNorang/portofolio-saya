@@ -40,14 +40,14 @@
             <button class="btn-kontak">Hubungi Saya</button>
         </section>
 
-        <section id="timer-area" style="background: #2c3e50; color: white; padding: 20px; border-radius: 10px; margin-top: 20px; text-align: center;">
+        <section id="timer-area" class="timer-card">
             <h3>⏱️ Timer Belajar</h3>
-            <div id="display-timer" style="font-size: 3rem; font-weight: bold; margin: 10px 0;">25:00</div>
+            <div id="display-timer">25:00</div>
             
             <div class="timer-controls">
-                <button id="btn-start" style="background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Mulai</button>
-                <button id="btn-pause" style="background: #f39c12; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Jeda</button>
-                <button id="btn-reset-timer" style="background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Reset</button>
+                <button id="btn-start" class="btn-timer btn-start">Mulai</button>
+                <button id="btn-pause" class="btn-timer btn-pause">Jeda</button>
+                <button id="btn-reset-timer" class="btn-timer btn-reset">Reset</button>
             </div>
         </section>
 
@@ -63,8 +63,21 @@
 
     <hr>
 
-    <footer>
-        <p>&copy; 2026 Muhammad Hashiif - Semangat Belajar!</p>
+    <footer class="footer-modern">
+        <div class="footer-content">
+            <h3>Muhammad Hashiif</h3>
+            <p>Frontend Developer Enthusiast yang berfokus pada pembangunan aplikasi web yang interaktif dan responsif.</p>
+            
+            <div class="social-links">
+                <a href="https://github.com/AmbonOrang" target="_blank" title="GitHub">📁 GitHub</a>
+                <a href="#" title="LinkedIn">💼 LinkedIn</a>
+                <a href="mailto:emailkamu@gmail.com" title="Email">✉️ Kontak</a>
+            </div>
+            
+            <hr class="footer-divider">
+            
+            <p class="copyright">&copy; 2026 Muhammad Hashiif. Dibuat dengan semangat belajar.</p>
+        </div>
     </footer>
 
     <script src="script.js"></script>
