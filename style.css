@@ -229,3 +229,8 @@ img {
     animation: warningGlow 1s infinite;
     border: 2px solid #e74c3c !important;
 }
+
+canvas {
+    max-width: 100%;
+    height: auto !important;
+}
