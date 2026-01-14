@@ -8,32 +8,68 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
   </head>
+
   <body>
     <header>
       <h1>Portofolio Saya</h1>
       <nav>
-        <a href="#tentang">Tentang Saya</a> |
-        <a href="https://google.com" target="_blank">Cari Info</a>
+        <a href="#tentang">Profil</a> | <a href="#daftar-rencana">Rencana</a> |
+        <a href="#grafik-area">Progres</a> |
+        <a href="#timer-area">Timer</a>
       </nav>
       <button id="btn-tema">Mode Gelap</button>
     </header>
 
     <hr />
 
-    <main id="tentang" class="container">
-      <section data-aos="fade-right">
+    <section id="tentang" class="section-fullwidth" data-aos="fade-down">
+      <div class="inner-content">
         <h2>Profil</h2>
-        <p>
-          Saya adalah seorang calon <strong>Frontend Developer</strong> yang
-          sedang bersemangat belajar.
-        </p>
         <img
           src="https://cdn-5.motorsport.com/images/mgl/0ZR74Db0/s300/marc-marquez-ducati-team.webp"
           alt="Foto Profil"
-          width="150"
+          class="profile-img"
         />
-      </section>
+        <div class="bio-text">
+          <p>
+            Halo! Saya <strong>Muhammad Hashiif Maulana</strong>, seorang
+            Mahasiswa yang lagi asyik nyemplung di dunia
+            <strong>Frontend Development</strong>.
+          </p>
+          <p>
+            Kenapa coding? Sederhana sih, saya selalu takjub tiap kali melihat
+            baris kode yang awalnya cuma teks "mati", tiba-tiba berubah jadi
+            tampilan interaktif yang keren. Lewat coding, saya merasa punya
+            kekuatan buat berkreasi tanpa batas!
+          </p>
+          <p>
+            Sekarang saya lagi fokus memantapkan dasar
+            <strong>HTML, CSS, dan JavaScript</strong>, sambil terus ngikutin
+            <em>roadmap</em> biar jadi developer yang nggak cuma jago ngetik,
+            tapi juga paham struktur yang baik.
+          </p>
+          <p>
+            Mimpi besar saya adalah membangun solusi digital yang beneran
+            bermanfaat buat banyak orang, sekaligus bikin interaksi kita dengan
+            dunia digital jadi jauh lebih mudah dan seru.
+          </p>
 
+          <div class="skills-container">
+            <h3>My Skills</h3>
+            <div class="skills-icons">
+              <span>🌐 HTML</span>
+              <span>🎨 CSS</span>
+              <span>⚡ JS</span>
+              <span>📱 Responsive</span>
+            </div>
+          </div>
+
+          <a href="#" class="btn-cv" id="download-cv">📄 Download CV</a>
+        </div>
+      </div>
+    </section>
+
+    <main class="container">
       <section data-aos="fade-up">
         <h2>Rencana Belajar Minggu Ini</h2>
         <ul id="daftar-rencana"></ul>
@@ -62,7 +98,7 @@
           <input type="number" id="input-durasi" value="25" min="1" max="120" />
           <span>Menit</span>
         </div>
-        <div id="display-timer">00:06</div>
+        <div id="display-timer">25:00</div>
         <div class="timer-controls">
           <button id="btn-start" class="btn-timer btn-start">Mulai</button>
           <button id="btn-pause" class="btn-timer btn-pause">Jeda</button>
@@ -71,15 +107,15 @@
           </button>
         </div>
       </section>
-
-      <section id="quote-area" data-aos="fade-up">
-        <h3>💡 Kutipan Inspiratif</h3>
-        <p id="teks-quote">Sedang mengambil kutipan...</p>
-        <small id="penulis-quote"></small>
-        <br /><br />
-        <button id="btn-quote">Ganti Kutipan</button>
-      </section>
     </main>
+
+    <section id="quote-area" class="section-fullwidth" data-aos="fade-up">
+      <h3>💡 Kutipan Inspiratif</h3>
+      <p id="teks-quote">Sedang mengambil kutipan...</p>
+      <small id="penulis-quote"></small>
+      <br /><br />
+      <button id="btn-quote">Ganti Kutipan</button>
+    </section>
 
     <hr />
 
@@ -106,6 +142,9 @@
     <script>
       AOS.init({ duration: 1000, once: true });
     </script>
+
+    <button id="btn-back-to-top" title="Kembali ke atas">↑</button>
+
     <script src="script.js"></script>
   </body>
 </html>

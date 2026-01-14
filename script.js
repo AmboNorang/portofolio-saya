@@ -295,3 +295,36 @@ tombolTema.addEventListener("click", function () {
     tombolTema.innerText = "Mode Gelap";
   }
 });
+
+const tombolCV = document.getElementById("download-cv");
+if (tombolCV) {
+  tombolCV.addEventListener("click", function (e) {
+    e.preventDefault();
+    alert("File CV sedang disiapkan! Fitur download ini akan kita aktifkan saat sudah punya file PDF-nya.");
+  });
+}
+
+// Ambil elemen tombol
+const btnBackToTop = document.getElementById("btn-back-to-top");
+
+// Jalankan fungsi saat pengguna menggulir layar
+window.onscroll = function() {
+    scrollFunction();
+};
+
+function scrollFunction() {
+    // Tombol muncul jika scroll lebih dari 300px dari atas
+    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        btnBackToTop.style.display = "block";
+    } else {
+        btnBackToTop.style.display = "none";
+    }
+}
+
+// Logika ketika tombol diklik
+btnBackToTop.addEventListener("click", function() {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth" // Efek gulir halus
+    });
+});
