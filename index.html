@@ -1,94 +1,111 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portofolio Saya - Day 2</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  </head>
+  <body>
     <header>
-        <h1>Portofolio Saya</h1>
-        <nav>
-            <a href="#tentang">Tentang Saya</a> | 
-            <a href="https://google.com" target="_blank">Cari Info</a>
-        </nav>
-        <button id="btn-tema" style="margin-top: 10px; padding: 5px 10px; cursor: pointer;">Mode Gelap</button>
+      <h1>Portofolio Saya</h1>
+      <nav>
+        <a href="#tentang">Tentang Saya</a> |
+        <a href="https://google.com" target="_blank">Cari Info</a>
+      </nav>
+      <button id="btn-tema">Mode Gelap</button>
     </header>
 
-    <hr>
+    <hr />
 
     <main id="tentang" class="container">
-        <section>
-            <h2>Profil</h2>
-            <p>Saya adalah seorang calon <strong>Frontend Developer</strong> yang sedang bersemangat belajar.</p>
-            <img src="https://cdn-5.motorsport.com/images/mgl/0ZR74Db0/s300/marc-marquez-ducati-team.webp" alt="Foto Profil" width="150">
-        </section>
-    
-        <section>
-            <h2>Rencana Belajar Minggu Ini</h2>
-            
-            <ul id="daftar-rencana"></ul>
-        
-            <div style="margin-top: 15px;">
-                <input type="text" id="input-rencana" placeholder="Ketik rencana baru...">
-                <button id="btn-tambah">Tambah</button>
-            </div>
-        
-            <br>
-            <button class="btn-kontak">Hubungi Saya</button>
-        </section>
+      <section data-aos="fade-right">
+        <h2>Profil</h2>
+        <p>
+          Saya adalah seorang calon <strong>Frontend Developer</strong> yang
+          sedang bersemangat belajar.
+        </p>
+        <img
+          src="https://cdn-5.motorsport.com/images/mgl/0ZR74Db0/s300/marc-marquez-ducati-team.webp"
+          alt="Foto Profil"
+          width="150"
+        />
+      </section>
 
-        <section id="grafik-area" style="background: white; padding: 20px; border-radius: 10px; margin-top: 20px; text-align: center;">
-            <h3>📊 Progres Rencana Belajar</h3>
-            <div style="width: 300px; margin: 0 auto;">
-                <canvas id="myChart"></canvas>
-            </div>
-        </section>
+      <section data-aos="fade-up">
+        <h2>Rencana Belajar Minggu Ini</h2>
+        <ul id="daftar-rencana"></ul>
+        <div class="input-group">
+          <input
+            type="text"
+            id="input-rencana"
+            placeholder="Ketik rencana baru..."
+          />
+          <button id="btn-tambah">Tambah</button>
+        </div>
+        <br />
+        <button class="btn-kontak">Hubungi Saya</button>
+      </section>
 
-        <section id="timer-area" class="timer-card">
-            <h3>⏱️ Timer Belajar</h3>
-            <div id="display-timer">25:00</div>
-            
-            <div class="timer-controls">
-                <button id="btn-start" class="btn-timer btn-start">Mulai</button>
-                <button id="btn-pause" class="btn-timer btn-pause">Jeda</button>
-                <button id="btn-reset-timer" class="btn-timer btn-reset">Reset</button>
-            </div>
-        </section>
+      <section id="grafik-area" data-aos="zoom-in">
+        <h3>📊 Progres Rencana Belajar</h3>
+        <div class="chart-container">
+          <canvas id="myChart"></canvas>
+        </div>
+      </section>
 
-        <section id="quote-area" style="background: #f9f9f9; padding: 20px; border-radius: 10px; margin-top: 20px; text-align: center; border-left: 5px solid #3498db;">
-            <h3>💡 Kutipan Inspiratif</h3>
-            <p id="teks-quote">Sedang mengambil kutipan...</p>
-            <small id="penulis-quote"></small>
-            <br><br>
-            <button id="btn-quote" style="padding: 5px 15px; cursor: pointer;">Ganti Kutipan</button>
-        </section>
-        
+      <section id="timer-area" data-aos="flip-left" class="timer-card">
+        <h3>⏱️ Timer Belajar</h3>
+        <div class="timer-input-wrapper">
+          <input type="number" id="input-durasi" value="25" min="1" max="120" />
+          <span>Menit</span>
+        </div>
+        <div id="display-timer">00:06</div>
+        <div class="timer-controls">
+          <button id="btn-start" class="btn-timer btn-start">Mulai</button>
+          <button id="btn-pause" class="btn-timer btn-pause">Jeda</button>
+          <button id="btn-reset-timer" class="btn-timer btn-reset">
+            Reset
+          </button>
+        </div>
+      </section>
+
+      <section id="quote-area" data-aos="fade-up">
+        <h3>💡 Kutipan Inspiratif</h3>
+        <p id="teks-quote">Sedang mengambil kutipan...</p>
+        <small id="penulis-quote"></small>
+        <br /><br />
+        <button id="btn-quote">Ganti Kutipan</button>
+      </section>
     </main>
 
-    <hr>
+    <hr />
 
     <footer class="footer-modern">
-        <div class="footer-content">
-            <h3>Muhammad Hashiif</h3>
-            <p>Frontend Developer Enthusiast yang berfokus pada pembangunan aplikasi web yang interaktif dan responsif.</p>
-            
-            <div class="social-links">
-                <a href="https://github.com/AmbonOrang" target="_blank" title="GitHub">📁 GitHub</a>
-                <a href="#" title="LinkedIn">💼 LinkedIn</a>
-                <a href="mailto:emailkamu@gmail.com" title="Email">✉️ Kontak</a>
-            </div>
-            
-            <hr class="footer-divider">
-            
-            <p class="copyright">&copy; 2026 Muhammad Hashiif. Dibuat dengan semangat belajar.</p>
+      <div class="footer-content">
+        <h3>Muhammad Hashiif</h3>
+        <p>
+          Frontend Developer Enthusiast yang berfokus pada pembangunan aplikasi
+          web yang interaktif dan responsif.
+        </p>
+        <div class="social-links">
+          <a href="https://github.com/AmbonOrang" target="_blank">📁 GitHub</a>
+          <a href="#">💼 LinkedIn</a>
+          <a href="mailto:emailkamu@gmail.com">✉️ Kontak</a>
         </div>
+        <hr class="footer-divider" />
+        <p class="copyright">
+          &copy; 2026 Muhammad Hashiif. Dibuat dengan semangat belajar.
+        </p>
+      </div>
     </footer>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({ duration: 1000, once: true });
+    </script>
     <script src="script.js"></script>
-
-</body>
+  </body>
 </html>

@@ -8,6 +8,7 @@ const tombolKontak = document.querySelector(".btn-kontak");
 const teksQuote = document.getElementById("teks-quote");
 const penulisQuote = document.getElementById("penulis-quote");
 const tombolQuote = document.getElementById("btn-quote");
+const inputDurasi = document.getElementById("input-durasi");
 
 // ==========================================
 // 2. DATA & LOCAL STORAGE
@@ -15,6 +16,8 @@ const tombolQuote = document.getElementById("btn-quote");
 let rencanaBelajar = JSON.parse(localStorage.getItem("myRencana")) || [
   "Belajar HTML Semantik (Selesai!)",
   "Mastering CSS & Flexbox (Selesai!)",
+  "Integrasi Dasar JavaScript (DOM) (Selesai!)",
+  "Implementasi API & Library (Selesai!)",
 ];
 
 function simpanKeMemori() {
@@ -30,25 +33,45 @@ function simpanKeMemori() {
 let jumlahSelesai = JSON.parse(localStorage.getItem("jumlahSelesai")) || 0;
 
 function tampilkanRencana() {
-    if (!listContainer) return;
-    listContainer.innerHTML = "";
+  if (!listContainer) return;
+  listContainer.innerHTML = "";
 
-    rencanaBelajar.forEach(function (item, index) {
-        const li = document.createElement("li");
-        li.innerText = item;
-        li.style.cursor = "pointer";
+  rencanaBelajar.forEach(function (item, index) {
+    const li = document.createElement("li");
+    li.innerText = item;
+    li.style.cursor = "pointer";
 
-        li.addEventListener("click", function () {
-            rencanaBelajar.splice(index, 1);
-            jumlahSelesai++; // Tambah angka selesai
-            localStorage.setItem("jumlahSelesai", jumlahSelesai); // Simpan progres
-            simpanKeMemori();
-            tampilkanRencana();
-        });
-        listContainer.appendChild(li);
+    // --- FITUR BARU: Cek apakah tugas sudah mengandung kata "(Selesai!)" ---
+    if (item.includes("(Selesai!)")) {
+      li.style.textDecoration = "line-through"; // Coret teks
+      li.style.opacity = "0.6"; // Buat agak transparan
+      li.style.color = "#2ecc71"; // Ubah warna jadi hijau
+    }
+
+    li.addEventListener("click", function () {
+      // Logika: Jika belum ada tulisan (Selesai!), maka tandai selesai
+      if (!rencanaBelajar[index].includes("(Selesai!)")) {
+        rencanaBelajar[index] = item + " (Selesai!)";
+        jumlahSelesai++; // Tambah angka untuk grafik
+        localStorage.setItem("jumlahSelesai", jumlahSelesai);
+      }
+      // Jika sudah selesai, klik sekali lagi untuk menghapus dari list
+      else {
+        const konfirmasi = confirm("Hapus rencana ini dari daftar?");
+        if (konfirmasi) {
+          rencanaBelajar.splice(index, 1);
+        }
+      }
+
+      simpanKeMemori();
+      tampilkanRencana(); // Refresh tampilan
     });
 
-    if (myChart) updateGrafik();
+    listContainer.appendChild(li);
+  });
+
+  // Update grafik setiap kali ada perubahan status tugas
+  if (typeof myChart !== "undefined") updateGrafik();
 }
 
 function tambahRencanaBaru() {
@@ -116,7 +139,7 @@ if (tombolQuote) {
 // FITUR TIMER BELAJAR (POMODORO)
 // ==========================================
 
-let waktuTersisa = 25 * 60; // 25 menit dalam detik
+let waktuTersisa = 6; // 25 menit dalam detik
 let timerBerjalan = null;
 
 const displayTimer = document.getElementById("display-timer");
@@ -152,7 +175,13 @@ function jalankanTimer() {
     } else {
       clearInterval(timerBerjalan);
       timerBerjalan = null;
-      document.getElementById("timer-area").classList.remove("timer-warning"); // Hapus efek saat selesai
+
+      const timerCard = document.getElementById("timer-area"); // Simpan di variabel
+
+      // Beri warna hijau sebagai penanda selesai
+      timerCard.classList.add("timer-finish");
+      timerCard.classList.remove("timer-warning");
+
       alert("Waktu belajar selesai! Waktunya istirahat sebentar.");
     }
   }, 1000);
@@ -164,12 +193,29 @@ function jedaTimer() {
 }
 
 function resetTimer() {
-  jedaTimer();
-  waktuTersisa = 25 * 60;
+  jedaTimer(); // Hentikan timer jika sedang berjalan
+
+  const timerCard = document.getElementById("timer-area");
+  // Kembalikan ke warna biru aslinya
+  timerCard.classList.remove("timer-finish");
+  timerCard.classList.remove("timer-warning");
+
+  // Ambil nilai dari input, jika kosong atau bukan angka gunakan 25
+  const menitBaru = parseInt(inputDurasi.value) || 25;
+
+  waktuTersisa = menitBaru * 60; // Ubah menit ke detik
   updateTampilanTimer();
-  // Hapus class warning jika tombol reset ditekan saat sedang berkedip
+
+  // Hapus efek peringatan
   document.getElementById("timer-area").classList.remove("timer-warning");
 }
+
+inputDurasi.addEventListener("input", function () {
+  // Hanya update tampilan jika timer sedang TIDAK berjalan
+  if (!timerBerjalan) {
+    resetTimer();
+  }
+});
 
 // Pasang Event Listeners
 tombolStart.addEventListener("click", jalankanTimer);
@@ -202,19 +248,35 @@ function inisialisasiGrafik() {
     },
     options: {
       responsive: true,
+      maintainAspectRatio: true, // Menjaga grafik tetap bulat (1:1)
       plugins: {
-        legend: { position: "bottom" },
+        legend: {
+          position: "bottom", // Memastikan legenda ada di bawah dengan rapi
+          labels: {
+            padding: 20, // Memberi jarak antara grafik dan tulisan legenda
+            boxWidth: 12,
+          },
+        },
+      },
+      layout: {
+        padding: 10,
       },
     },
   });
 }
 
 function updateGrafik() {
-    if (myChart) {
-        myChart.data.datasets[0].data[0] = rencanaBelajar.length; // Belum selesai
-        myChart.data.datasets[0].data[1] = jumlahSelesai;        // Selesai
-        myChart.update();
-    }
+  if (myChart) {
+    // Hitung otomatis berapa banyak yang ada kata "(Selesai!)"
+    const selesai = rencanaBelajar.filter((item) =>
+      item.includes("(Selesai!)")
+    ).length;
+    const belumSelesai = rencanaBelajar.length - selesai;
+
+    myChart.data.datasets[0].data[0] = belumSelesai;
+    myChart.data.datasets[0].data[1] = selesai;
+    myChart.update();
+  }
 }
 
 // Jalankan inisialisasi saat halaman dimuat
@@ -223,13 +285,13 @@ tampilkanRencana();
 ambilQuote();
 
 const tombolTema = document.getElementById("btn-tema");
-tombolTema.addEventListener("click", function() {
-    document.body.classList.toggle("dark-theme");
-    
-    // Ubah teks tombol
-    if (document.body.classList.contains("dark-theme")) {
-        tombolTema.innerText = "Mode Terang";
-    } else {
-        tombolTema.innerText = "Mode Gelap";
-    }
+tombolTema.addEventListener("click", function () {
+  document.body.classList.toggle("dark-theme");
+
+  // Ubah teks tombol
+  if (document.body.classList.contains("dark-theme")) {
+    tombolTema.innerText = "Mode Terang";
+  } else {
+    tombolTema.innerText = "Mode Gelap";
+  }
 });
