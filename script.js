@@ -14,10 +14,12 @@ const inputDurasi = document.getElementById("input-durasi");
 // 2. DATA & LOCAL STORAGE
 // ==========================================
 let rencanaBelajar = JSON.parse(localStorage.getItem("myRencana")) || [
-  "Belajar HTML Semantik (Selesai!)",
-  "Mastering CSS & Flexbox (Selesai!)",
-  "Integrasi Dasar JavaScript (DOM) (Selesai!)",
-  "Implementasi API & Library (Selesai!)",
+  "Day 1: The Blueprint (Fondasi & Struktur) (Selesai!)",
+  "Day 2: Personality & Identity (Integrasi Profil & Tema) (Selesai!)",
+  "Day 3: Interaction Engine (Logika Todo List & DOM) (Selesai!)",
+  "Day 4: UX Polish & Accessibility (Navigasi & Kontak) (Selesai!)",
+  "Day 5: Visual Effects & Optimization (AOS & Favicon)",
+  "Day 6: Final Mission (Deployment & Go Online)"
 ];
 
 function simpanKeMemori() {
@@ -373,4 +375,49 @@ document.querySelectorAll('.nav-menu a').forEach(link => {
     link.addEventListener('click', () => {
         navMenu.classList.remove('active');
     });
+});
+
+// ==========================================
+// 6. VALIDASI FORM KONTAK
+// ==========================================
+const formKontak = document.getElementById('form-kontak');
+
+if (formKontak) {
+  formKontak.addEventListener('submit', function(e) {
+    e.preventDefault(); // Mencegah halaman refresh
+
+    // Ambil nilai input
+    const nama = document.getElementById('nama-kontak').value;
+    const email = document.getElementById('email-kontak').value;
+    const pesan = document.getElementById('pesan-kontak').value;
+
+    // Validasi sederhana (Sudah dibantu atribut 'required' di HTML)
+    if (nama && email && pesan) {
+      alert(`Terima kasih, ${nama}! Pesan kamu telah diterima (Simulasi).`);
+      
+      // Reset form setelah berhasil
+      formKontak.reset();
+      
+      // Efek visual pada tombol
+      const tombol = document.getElementById('btn-kirim');
+      tombol.innerText = "Terkirim! ✅";
+      tombol.style.backgroundColor = "#3498db";
+      
+      setTimeout(() => {
+        tombol.innerText = "Kirim Pesan";
+        tombol.style.backgroundColor = "#27ae60";
+      }, 3000);
+    }
+  });
+}
+
+formKontak.addEventListener('submit', function(e) {
+  e.preventDefault();
+  const nama = document.getElementById('nama-kontak').value;
+  
+  // TAMBAHKAN INI UNTUK CEK:
+  console.log("Nama pengirim:", nama);
+  console.log("Email pengirim:", document.getElementById('email-kontak').value);
+  
+  alert("Berhasil!");
 });

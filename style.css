@@ -370,6 +370,38 @@ input {
     text-align: center;
 }
 
+#form-kontak {
+    max-width: 500px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#form-kontak input, #form-kontak textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: inherit;
+}
+
+#btn-kirim {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+#btn-kirim:hover {
+    background-color: #219150;
+    transform: translateY(-2px);
+}
+
 /* ==========================================
    5. FOOTER
    ========================================== */
