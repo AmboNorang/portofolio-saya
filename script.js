@@ -266,15 +266,15 @@ function inisialisasiGrafik() {
 }
 
 function updateGrafik() {
-  if (myChart) {
-    // Hitung otomatis berapa banyak yang ada kata "(Selesai!)"
-    const selesai = rencanaBelajar.filter((item) =>
-      item.includes("(Selesai!)")
-    ).length;
+  if (typeof myChart !== "undefined") {
+    // 1. Hitung ulang
+    const selesai = rencanaBelajar.filter((item) => item.includes("(Selesai!)")).length;
     const belumSelesai = rencanaBelajar.length - selesai;
 
-    myChart.data.datasets[0].data[0] = belumSelesai;
-    myChart.data.datasets[0].data[1] = selesai;
+    // 2. TUKAR POSISI DISINI:
+    // Jika tadi [selesai, belumSelesai] terbalik, maka kita pakai:
+    myChart.data.datasets[0].data = [belumSelesai, selesai];
+    
     myChart.update();
   }
 }
@@ -308,25 +308,25 @@ if (tombolCV) {
 const btnBackToTop = document.getElementById("btn-back-to-top");
 
 // Jalankan fungsi saat pengguna menggulir layar
-window.onscroll = function () {
-  scrollFunction();
+window.onscroll = function() {
+    scrollFunction();
 };
 
 function scrollFunction() {
-  // Tombol muncul jika scroll lebih dari 300px dari atas
-  if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-    btnBackToTop.style.display = "block";
-  } else {
-    btnBackToTop.style.display = "none";
-  }
+    // Tombol muncul jika scroll lebih dari 300px dari atas
+    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        btnBackToTop.style.display = "block";
+    } else {
+        btnBackToTop.style.display = "none";
+    }
 }
 
 // Logika ketika tombol diklik
-btnBackToTop.addEventListener("click", function () {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth" // Efek gulir halus
-  });
+btnBackToTop.addEventListener("click", function() {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth" // Efek gulir halus
+    });
 });
 
 // --- Fitur API GitHub ---
@@ -335,7 +335,7 @@ async function hubungkanGitHub() {
   try {
     const respon = await fetch(`https://api.github.com/users/${username}`);
     if (!respon.ok) throw new Error("User tidak ditemukan");
-
+    
     const data = await respon.json();
 
     // Memasukkan data ke HTML
@@ -354,6 +354,9 @@ async function hubungkanGitHub() {
 // Panggil fungsi saat halaman dimuat
 hubungkanGitHub();
 
+// ==========================================
+// 5. LOGIKA HAMBURGER MENU
+// ==========================================
 // Logika Hamburger Menu
 const hamburger = document.getElementById('hamburger');
 const navMenu = document.getElementById('nav-menu');
