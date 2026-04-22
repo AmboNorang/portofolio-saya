@@ -1,7 +1,7 @@
 /* ==========================================
    1. BASE STYLES & RESET
    ========================================== */
-   html {
+html {
     scroll-behavior: smooth;
 }
 
@@ -23,7 +23,7 @@ body {
 /* ==========================================
    2. LAYOUT & CONTAINERS
    ========================================== */
-   header {
+header {
     background-color: #2c3e50;
     color: white;
     padding: 40px 20px;
@@ -34,19 +34,21 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 15px;
-    
+
     /* Header sekarang bersifat statis/normal */
-    position: relative; 
+    position: relative;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* Gabungkan pengaturan dasar untuk semua section lebar penuh */
-.section-fullwidth, #quote-area {
+.section-fullwidth,
+#quote-area {
     width: 100%;
     max-width: 1400px;
-    margin: 60px auto; 
+    margin: 60px auto;
     background-color: white;
-    padding: 60px 20px; /* Padding ditambah sedikit agar lebih mewah */
+    padding: 60px 20px;
+    /* Padding ditambah sedikit agar lebih mewah */
     border-radius: 15px;
     text-align: center;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
@@ -62,7 +64,8 @@ body {
     border-bottom: 5px solid #e74c3c;
 }
 
-.section-fullwidth:hover, #quote-area:hover {
+.section-fullwidth:hover,
+#quote-area:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
@@ -95,8 +98,9 @@ body {
 }
 
 .bio-text p {
-    text-align: center; 
-    max-width: 850px; /* Agar teks tidak melar terlalu panjang ke samping */
+    text-align: center;
+    max-width: 850px;
+    /* Agar teks tidak melar terlalu panjang ke samping */
     margin: 0 auto 20px auto;
     font-size: 1.1rem;
 }
@@ -108,7 +112,8 @@ body {
 }
 
 .dark-theme .bio-text p {
-    color: #ddd; /* Warna teks saat mode gelap */
+    color: #ddd;
+    /* Warna teks saat mode gelap */
 }
 
 /* Container Skill */
@@ -162,14 +167,17 @@ body {
 }
 
 .container {
-    display: grid; /* Aktifkan mode Grid */
+    display: grid;
+    /* Aktifkan mode Grid */
     /* Membuat 3 kolom yang ukurannya otomatis menyesuaikan layar */
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
-    gap: 25px; /* Jarak antar kotak */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+    /* Jarak antar kotak */
     max-width: 1400px;
     margin: 60px auto;
     padding: 0 20px;
 }
+
 section {
 
     background-color: white;
@@ -219,7 +227,8 @@ nav a:hover {
     border-radius: 5px;
     cursor: pointer;
     transition: 0.2s;
-    transition: all 0.3s ease; /* Tambahkan ini agar efek coret muncul perlahan */
+    transition: all 0.3s ease;
+    /* Tambahkan ini agar efek coret muncul perlahan */
 }
 
 #daftar-rencana li:hover {
@@ -231,16 +240,21 @@ nav a:hover {
 #grafik-area {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Menyeimbangkan posisi ke tengah */
+    align-items: center;
+    /* Menyeimbangkan posisi ke tengah */
     justify-content: center;
-    min-height: 400px; /* Memberi ruang agar grafik tidak gepeng */
+    min-height: 400px;
+    /* Memberi ruang agar grafik tidak gepeng */
 }
 
 .chart-container {
     position: relative;
-    width: 100%; /* Mengikuti lebar section */
-    max-width: 280px;/* Membatasi lebar maksimal agar tetap bulat cantik */
-    margin: auto; /* Tengah secara horizontal */
+    width: 100%;
+    /* Mengikuti lebar section */
+    max-width: 280px;
+    /* Membatasi lebar maksimal agar tetap bulat cantik */
+    margin: auto;
+    /* Tengah secara horizontal */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -262,7 +276,8 @@ canvas {
 /* Gradasi Hijau Modern untuk Timer Selesai */
 .timer-finish {
     background: linear-gradient(135deg, #27ae60, #2ecc71, #a8e063) !important;
-    box-shadow: 0 10px 30px rgba(46, 204, 113, 0.4);/* Efek cahaya hijau */
+    box-shadow: 0 10px 30px rgba(46, 204, 113, 0.4);
+    /* Efek cahaya hijau */
     transition: all 0.5s ease;
 }
 
@@ -297,7 +312,8 @@ button,
     padding: 12px 24px;
     border: none;
     border-radius: 25px;
-    margin-top: auto;/* Memastikan tombol selalu di bawah */
+    margin-top: auto;
+    /* Memastikan tombol selalu di bawah */
     animation: floating 2s infinite ease-in-out;
 }
 
@@ -308,18 +324,24 @@ button,
 
 /* Merapikan baris input dan tombol tambah */
 .input-group {
-    display: flex; /* Membuat input dan tombol sejajar ke samping */
-    gap: 10px; /* Memberi jarak antara input dan tombol */
-    margin-top: 15px; /* Memberi jarak dari list di atasnya */
+    display: flex;
+    /* Membuat input dan tombol sejajar ke samping */
+    gap: 10px;
+    /* Memberi jarak antara input dan tombol */
+    margin-top: 15px;
+    /* Memberi jarak dari list di atasnya */
 }
 
 #input-rencana {
-    flex: 1; /* Membuat kotak input mengambil sisa ruang yang ada */
-    padding: 10px;/* Membuat kotak input lebih luas dan nyaman diketik */
+    flex: 1;
+    /* Membuat kotak input mengambil sisa ruang yang ada */
+    padding: 10px;
+    /* Membuat kotak input lebih luas dan nyaman diketik */
 }
 
 #btn-tambah {
-    padding: 10px 20px; /* Membuat tombol tambah lebih proporsional */
+    padding: 10px 20px;
+    /* Membuat tombol tambah lebih proporsional */
     background-color: #2ecc71;
     color: white;
     border: none;
@@ -415,7 +437,7 @@ input {
     border-left-color: #f1c40f;
 }
 
-.dark-theme .section-fullwidth, 
+.dark-theme .section-fullwidth,
 .dark-theme #quote-area {
     background-color: #333 !important;
     color: white;
@@ -476,7 +498,8 @@ input {
 
 /* Tombol Kembali ke Atas */
 #btn-back-to-top {
-    display: none; /* Sembunyi secara default */
+    display: none;
+    /* Sembunyi secara default */
     position: fixed;
     bottom: 30px;
     right: 30px;
@@ -487,7 +510,8 @@ input {
     color: white;
     cursor: pointer;
     padding: 15px;
-    border-radius: 50%; /* Membuat tombol bulat */
+    border-radius: 50%;
+    /* Membuat tombol bulat */
     font-size: 20px;
     font-weight: bold;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -521,10 +545,12 @@ input {
         box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
         transform: scale(1);
     }
+
     50% {
         box-shadow: 0 0 25px rgba(52, 152, 219, 0.8);
         transform: scale(1.02);
     }
+
     100% {
         box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
         transform: scale(1);
@@ -537,7 +563,68 @@ input {
 }
 
 @keyframes floating {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-5px); }
-    100% { transform: translateY(0px); }
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* Container Navigasi */
+.nav-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Gaya dasar Hamburger */
+.hamburger {
+    display: none; /* Sembunyikan di laptop */
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    margin-left: 15px;
+}
+
+.hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--text-color, #333);
+    transition: 0.3s;
+}
+
+/* Responsif untuk HP (Layar di bawah 768px) */
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex; /* Munculkan hamburger */
+    }
+
+    .nav-menu {
+        display: none; /* Sembunyikan menu teks */
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        right: 20px;
+        background-color: var(--bg-color, white);
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        z-index: 100;
+    }
+
+    .nav-menu.active {
+        display: flex; /* Muncul saat diklik */
+    }
+    
+    .nav-menu a {
+        margin: 10px 0;
+        text-decoration: none;
+    }
 }

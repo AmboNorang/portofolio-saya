@@ -308,25 +308,25 @@ if (tombolCV) {
 const btnBackToTop = document.getElementById("btn-back-to-top");
 
 // Jalankan fungsi saat pengguna menggulir layar
-window.onscroll = function() {
-    scrollFunction();
+window.onscroll = function () {
+  scrollFunction();
 };
 
 function scrollFunction() {
-    // Tombol muncul jika scroll lebih dari 300px dari atas
-    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-        btnBackToTop.style.display = "block";
-    } else {
-        btnBackToTop.style.display = "none";
-    }
+  // Tombol muncul jika scroll lebih dari 300px dari atas
+  if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+    btnBackToTop.style.display = "block";
+  } else {
+    btnBackToTop.style.display = "none";
+  }
 }
 
 // Logika ketika tombol diklik
-btnBackToTop.addEventListener("click", function() {
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth" // Efek gulir halus
-    });
+btnBackToTop.addEventListener("click", function () {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth" // Efek gulir halus
+  });
 });
 
 // --- Fitur API GitHub ---
@@ -335,7 +335,7 @@ async function hubungkanGitHub() {
   try {
     const respon = await fetch(`https://api.github.com/users/${username}`);
     if (!respon.ok) throw new Error("User tidak ditemukan");
-    
+
     const data = await respon.json();
 
     // Memasukkan data ke HTML
@@ -353,3 +353,21 @@ async function hubungkanGitHub() {
 
 // Panggil fungsi saat halaman dimuat
 hubungkanGitHub();
+
+// Logika Hamburger Menu
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.getElementById('nav-menu');
+
+hamburger.addEventListener('click', () => {
+    navMenu.classList.toggle('active');
+    
+    // Opsional: Animasi hamburger jadi (X)
+    hamburger.classList.toggle('toggle');
+});
+
+// Tutup menu saat salah satu link diklik (untuk UX HP yang lebih baik)
+document.querySelectorAll('.nav-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+    });
+});
