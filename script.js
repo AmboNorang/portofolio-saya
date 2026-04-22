@@ -1,101 +1,127 @@
 // ==========================================
-// 1. DEFINISI ELEMEN (DOM)
+// 1. DOM ELEMENTS
 // ==========================================
 const listContainer = document.getElementById("daftar-rencana");
 const inputRencana = document.getElementById("input-rencana");
 const tombolTambah = document.getElementById("btn-tambah");
 const tombolKontak = document.querySelector(".btn-kontak");
+
 const teksQuote = document.getElementById("teks-quote");
 const penulisQuote = document.getElementById("penulis-quote");
 const tombolQuote = document.getElementById("btn-quote");
+
 const inputDurasi = document.getElementById("input-durasi");
 
-// ==========================================
-// 2. DATA & LOCAL STORAGE
-// ==========================================
-let rencanaBelajar = JSON.parse(localStorage.getItem("myRencana")) || [
-  "Day 1: The Blueprint (Fondasi & Struktur) (Selesai!)",
-  "Day 2: Personality & Identity (Integrasi Profil & Tema) (Selesai!)",
-  "Day 3: Interaction Engine (Logika Todo List & DOM) (Selesai!)",
-  "Day 4: UX Polish & Accessibility (Navigasi & Kontak) (Selesai!)",
-  "Day 5: Visual Effects & Optimization (AOS & Favicon)",
-  "Day 6: Final Mission (Deployment & Go Online)"
-];
+const displayTimer = document.getElementById("display-timer");
+const tombolStart = document.getElementById("btn-start");
+const tombolPause = document.getElementById("btn-pause");
+const tombolResetTimer = document.getElementById("btn-reset-timer");
 
+const tombolTema = document.getElementById("btn-tema");
+const themeIcon = document.getElementById("theme-icon");
+
+const btnBackToTop = document.getElementById("btn-back-to-top");
+
+const hamburger = document.getElementById("hamburger");
+const navMenu = document.getElementById("nav-menu");
+
+const formKontak = document.getElementById("form-kontak");
+
+// ==========================================
+// 2. STATE & STORAGE
+// ==========================================
+let rencanaBelajar =
+  JSON.parse(localStorage.getItem("myRencana")) || [
+    "W1-D1: Fondasi & Struktur HTML (Selesai!)",
+    "W1-D2: API GitHub & Dark Mode (Selesai!)",
+    "W1-D3: Logic Todo & Grafik Progres (Selesai!)",
+    "W1-D4: Hamburger Menu & Form Kontak (Selesai!)",
+    "W1-D5: Animasi AOS & Efek Visual",
+    "W1-D6: Persiapan Deployment (Minggu 2)"
+  ];
+
+let jumlahSelesai =
+  JSON.parse(localStorage.getItem("jumlahSelesai")) || 0;
+
+let waktuTersisa = 25 * 60;
+let timerBerjalan = null;
+
+let myChart;
+
+// ==========================================
+// 3. STORAGE FUNCTION
+// ==========================================
 function simpanKeMemori() {
   localStorage.setItem("myRencana", JSON.stringify(rencanaBelajar));
 }
 
 // ==========================================
-// 3. FUNGSI LOGIKA (FUNCTIONS)
+// 4. TODO LIST
 // ==========================================
-
-// --- Fitur Todo List ---
-// 1. Tambahkan variabel untuk melacak tugas selesai (bisa disimpan di localStorage juga)
-let jumlahSelesai = JSON.parse(localStorage.getItem("jumlahSelesai")) || 0;
-
 function tampilkanRencana() {
   if (!listContainer) return;
+
   listContainer.innerHTML = "";
 
-  rencanaBelajar.forEach(function (item, index) {
+  rencanaBelajar.forEach((item, index) => {
     const li = document.createElement("li");
     li.innerText = item;
-    li.style.cursor = "pointer";
 
-    // --- FITUR BARU: Cek apakah tugas sudah mengandung kata "(Selesai!)" ---
     if (item.includes("(Selesai!)")) {
-      li.style.textDecoration = "line-through"; // Coret teks
-      li.style.opacity = "0.6"; // Buat agak transparan
-      li.style.color = "#2ecc71"; // Ubah warna jadi hijau
+      li.style.textDecoration = "line-through";
+      li.style.opacity = "0.6";
+      li.style.color = "#2ecc71";
     }
 
-    li.addEventListener("click", function () {
-      // Logika: Jika belum ada tulisan (Selesai!), maka tandai selesai
+    li.addEventListener("click", () => {
       if (!rencanaBelajar[index].includes("(Selesai!)")) {
         rencanaBelajar[index] = item + " (Selesai!)";
-        jumlahSelesai++; // Tambah angka untuk grafik
+        jumlahSelesai++;
         localStorage.setItem("jumlahSelesai", jumlahSelesai);
-      }
-      // Jika sudah selesai, klik sekali lagi untuk menghapus dari list
-      else {
-        const konfirmasi = confirm("Hapus rencana ini dari daftar?");
-        if (konfirmasi) {
+      } else {
+        if (confirm("Hapus rencana ini dari daftar?")) {
           rencanaBelajar.splice(index, 1);
         }
       }
 
       simpanKeMemori();
-      tampilkanRencana(); // Refresh tampilan
+      tampilkanRencana();
     });
 
     listContainer.appendChild(li);
   });
 
-  // Update grafik setiap kali ada perubahan status tugas
   if (typeof myChart !== "undefined") updateGrafik();
 }
 
 function tambahRencanaBaru() {
+  if (!inputRencana) return;
+
   const teksBaru = inputRencana.value.trim();
+
   if (teksBaru !== "") {
     rencanaBelajar.push(teksBaru);
     simpanKeMemori();
     tampilkanRencana();
-    updateGrafik(); // Tambahkan ini agar grafik update saat tambah data
+    updateGrafik();
     inputRencana.value = "";
   } else {
     alert("Isi dulu rencananya ya!");
   }
 }
 
-// --- Fitur API Quote ---
+// ==========================================
+// 5. QUOTE API
+// ==========================================
 async function ambilQuote() {
   try {
     teksQuote.innerText = "Memuat nasihat bijak...";
     const respon = await fetch("https://api.adviceslip.com/advice");
+
     if (!respon.ok) throw new Error("Gagal terhubung");
+
     const data = await respon.json();
+
     teksQuote.innerText = `"${data.slip.advice}"`;
     penulisQuote.innerText = "- Advice Slip";
   } catch (error) {
@@ -105,58 +131,18 @@ async function ambilQuote() {
 }
 
 // ==========================================
-// 4. EVENT LISTENERS (INTERAKSI)
+// 6. TIMER
 // ==========================================
-
-// Klik Tombol Tambah
-if (tombolTambah) {
-  tombolTambah.addEventListener("click", tambahRencanaBaru);
-}
-
-// Tekan Enter di Input (Fitur Tambahan)
-if (inputRencana) {
-  inputRencana.addEventListener("keypress", function (e) {
-    if (e.key === "Enter") tambahRencanaBaru();
-  });
-}
-
-// Tombol Kontak
-if (tombolKontak) {
-  tombolKontak.addEventListener("click", function () {
-    const namaUser = prompt("Halo! Siapa nama kamu?");
-    if (namaUser) {
-      alert(`Salam kenal, ${namaUser}! Senang kamu melihat portofolio saya.`);
-      tombolKontak.innerText = `Halo, ${namaUser}!`;
-      tombolKontak.style.backgroundColor = "#2ecc71";
-    }
-  });
-}
-
-// Tombol Ganti Quote
-if (tombolQuote) {
-  tombolQuote.addEventListener("click", ambilQuote);
-}
-
-// ==========================================
-// FITUR TIMER BELAJAR (POMODORO)
-// ==========================================
-
-let waktuTersisa = 25 * 60; // 25 menit dalam detik
-let timerBerjalan = null;
-
-const displayTimer = document.getElementById("display-timer");
-const tombolStart = document.getElementById("btn-start");
-const tombolPause = document.getElementById("btn-pause");
-const tombolResetTimer = document.getElementById("btn-reset-timer");
-
 function updateTampilanTimer() {
+  if (!displayTimer) return;
+
   const menit = Math.floor(waktuTersisa / 60);
   const detik = waktuTersisa % 60;
 
-  // Menampilkan format 00:00 (menggunakan padStart agar ada angka 0 di depan jika di bawah 10)
-  displayTimer.innerText = `${menit.toString().padStart(2, "0")}:${detik
-    .toString()
-    .padStart(2, "0")}`;
+  displayTimer.innerText =
+    `${menit.toString().padStart(2, "0")}:${detik
+      .toString()
+      .padStart(2, "0")}`;
 }
 
 function jalankanTimer() {
@@ -167,8 +153,8 @@ function jalankanTimer() {
       waktuTersisa--;
       updateTampilanTimer();
 
-      // CEK: Jika sisa 10 detik, tambahkan efek berkedip
       const timerCard = document.getElementById("timer-area");
+
       if (waktuTersisa <= 10) {
         timerCard.classList.add("timer-warning");
       } else {
@@ -178,13 +164,17 @@ function jalankanTimer() {
       clearInterval(timerBerjalan);
       timerBerjalan = null;
 
-      const timerCard = document.getElementById("timer-area"); // Simpan di variabel
-
-      // Beri warna hijau sebagai penanda selesai
+      const timerCard = document.getElementById("timer-area");
       timerCard.classList.add("timer-finish");
       timerCard.classList.remove("timer-warning");
 
-      alert("Waktu belajar selesai! Waktunya istirahat sebentar.");
+      // Ganti alert() dengan SweetAlert2
+      Swal.fire({
+        title: 'Waktu Habis!',
+        text: 'Istirahat sejenak yuk sebelum lanjut belajar.',
+        icon: 'info',
+        confirmButtonColor: '#3498db'
+      });
     }
   }, 1000);
 }
@@ -195,229 +185,205 @@ function jedaTimer() {
 }
 
 function resetTimer() {
-  jedaTimer(); // Hentikan timer jika sedang berjalan
+  jedaTimer();
 
   const timerCard = document.getElementById("timer-area");
-  // Kembalikan ke warna biru aslinya
-  timerCard.classList.remove("timer-finish");
-  timerCard.classList.remove("timer-warning");
+  timerCard.classList.remove("timer-finish", "timer-warning");
 
-  // Ambil nilai dari input, jika kosong atau bukan angka gunakan 25
   const menitBaru = parseInt(inputDurasi.value) || 25;
+  waktuTersisa = menitBaru * 60;
 
-  waktuTersisa = menitBaru * 60; // Ubah menit ke detik
   updateTampilanTimer();
-
-  // Hapus efek peringatan
-  document.getElementById("timer-area").classList.remove("timer-warning");
 }
 
-inputDurasi.addEventListener("input", function () {
-  // Hanya update tampilan jika timer sedang TIDAK berjalan
-  if (!timerBerjalan) {
-    resetTimer();
-  }
-});
-
-// Pasang Event Listeners
-tombolStart.addEventListener("click", jalankanTimer);
-tombolPause.addEventListener("click", jedaTimer);
-tombolResetTimer.addEventListener("click", resetTimer);
-
 // ==========================================
-// FITUR GRAFIK PROGRES (CHART.JS)
+// 7. CHART
 // ==========================================
-
-let myChart;
-
 function inisialisasiGrafik() {
-  const ctx = document.getElementById("myChart").getContext("2d");
-
-  // Data awal: Jumlah rencana yang ada vs 0 yang selesai (sebagai simulasi)
-  const jumlahTugas = rencanaBelajar.length;
+  const ctx = document.getElementById("myChart")?.getContext("2d");
+  if (!ctx) return;
 
   myChart = new Chart(ctx, {
-    type: "doughnut", // Grafik lingkaran bolong tengah (lebih modern)
+    type: "doughnut",
     data: {
       labels: ["Belum Selesai", "Selesai"],
-      datasets: [
-        {
-          data: [jumlahTugas, 0],
-          backgroundColor: ["#e74c3c", "#2ecc71"],
-          borderWidth: 1,
-        },
-      ],
+      datasets: [{
+        data: [rencanaBelajar.length, 0],
+        backgroundColor: ["#e74c3c", "#2ecc71"]
+      }]
     },
     options: {
       responsive: true,
-      maintainAspectRatio: true, // Menjaga grafik tetap bulat (1:1)
+      maintainAspectRatio: true,
       plugins: {
         legend: {
-          position: "bottom", // Memastikan legenda ada di bawah dengan rapi
+          position: "bottom",
           labels: {
-            padding: 20, // Memberi jarak antara grafik dan tulisan legenda
             boxWidth: 12,
-          },
-        },
-      },
-      layout: {
-        padding: 10,
-      },
-    },
+            boxHeight: 12,
+            padding: 25,
+            font: {
+              size: 12
+            }
+          }
+        }
+      }
+    }
   });
 }
 
 function updateGrafik() {
-  if (typeof myChart !== "undefined") {
-    // 1. Hitung ulang
-    const selesai = rencanaBelajar.filter((item) => item.includes("(Selesai!)")).length;
-    const belumSelesai = rencanaBelajar.length - selesai;
+  if (!myChart) return;
 
-    // 2. TUKAR POSISI DISINI:
-    // Jika tadi [selesai, belumSelesai] terbalik, maka kita pakai:
-    myChart.data.datasets[0].data = [belumSelesai, selesai];
-    
-    myChart.update();
+  const selesai = rencanaBelajar.filter(item =>
+    item.includes("(Selesai!)")
+  ).length;
+
+  const belum = rencanaBelajar.length - selesai;
+
+  myChart.data.datasets[0].data = [belum, selesai];
+  myChart.update();
+}
+
+// ==========================================
+// 8. GITHUB API
+// ==========================================
+async function hubungkanGitHub() {
+  const nameEl = document.getElementById("nama-github");
+  // Beri efek loading sebelum fetch
+  if (nameEl) nameEl.classList.add("skeleton"); 
+
+  try {
+    const respon = await fetch("https://api.github.com/users/AmbonOrang");
+    const data = await respon.json();
+
+    // Hapus efek skeleton setelah data dapat
+    if (nameEl) {
+        nameEl.classList.remove("skeleton");
+        nameEl.innerText = data.name || data.login;
+    }
+    // Lanjutkan kode untuk elemen lainnya
+  } catch (error) {
+    if (nameEl) nameEl.classList.remove("skeleton");
   }
 }
 
-// Jalankan inisialisasi saat halaman dimuat
+// ==========================================
+// 9. DARK MODE
+// ==========================================
+function updateIcon(isDark) {
+  if (themeIcon) {
+    themeIcon.innerText = isDark ? "☀️" : "🌙";
+  }
+}
+
+// ==========================================
+// 10. EVENT LISTENERS
+// ==========================================
+
+// Todo
+tombolTambah?.addEventListener("click", tambahRencanaBaru);
+inputRencana?.addEventListener("keypress", e => {
+  if (e.key === "Enter") tambahRencanaBaru();
+});
+
+// Kontak
+tombolKontak?.addEventListener("click", () => {
+  const namaUser = prompt("Halo! Siapa nama kamu?");
+  if (namaUser) {
+    alert(`Salam kenal, ${namaUser}!`);
+    tombolKontak.innerText = `Halo, ${namaUser}!`;
+  }
+});
+
+// Quote
+tombolQuote?.addEventListener("click", ambilQuote);
+
+// Timer
+tombolStart?.addEventListener("click", jalankanTimer);
+tombolPause?.addEventListener("click", jedaTimer);
+tombolResetTimer?.addEventListener("click", resetTimer);
+
+inputDurasi?.addEventListener("input", () => {
+  if (!timerBerjalan) resetTimer();
+});
+
+// Dark Mode
+tombolTema?.addEventListener("click", () => {
+  const isDark = document.body.classList.toggle("dark-theme");
+  updateIcon(isDark);
+  localStorage.setItem("tema", isDark ? "dark" : "light");
+});
+
+// Back To Top
+window.onscroll = () => {
+  if (!btnBackToTop) return;
+
+  btnBackToTop.style.display =
+    document.documentElement.scrollTop > 300 ? "block" : "none";
+};
+
+btnBackToTop?.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+// Hamburger
+hamburger?.addEventListener("click", () => {
+  navMenu.classList.toggle("active");
+  hamburger.classList.toggle("toggle");
+});
+
+document.querySelectorAll(".nav-menu a").forEach(link => {
+  link.addEventListener("click", () => {
+    navMenu.classList.remove("active");
+  });
+});
+
+// Form
+formKontak?.addEventListener("submit", e => {
+  e.preventDefault();
+
+  const nama = document.getElementById("nama-kontak").value;
+  const email = document.getElementById("email-kontak").value;
+  const pesan = document.getElementById("pesan-kontak").value;
+
+  if (nama && email && pesan) {
+    // Ganti alert dengan SweetAlert2
+    Swal.fire({
+      title: 'Terkirim!',
+      text: `Terima kasih, ${nama}! Pesan kamu telah diterima.`,
+      icon: 'success',
+      confirmButtonColor: '#27ae60'
+    });
+
+    formKontak.reset();
+
+    const tombol = document.getElementById("btn-kirim");
+    tombol.innerText = "Terkirim! ✅";
+    tombol.style.backgroundColor = "#3498db";
+
+    setTimeout(() => {
+      tombol.innerText = "Kirim Pesan";
+      tombol.style.backgroundColor = "#27ae60";
+    }, 3000);
+  }
+});
+
+// ==========================================
+// 11. INIT
+// ==========================================
 inisialisasiGrafik();
 tampilkanRencana();
 ambilQuote();
-
-const tombolTema = document.getElementById("btn-tema");
-tombolTema.addEventListener("click", function () {
-  document.body.classList.toggle("dark-theme");
-
-  // Ubah teks tombol
-  if (document.body.classList.contains("dark-theme")) {
-    tombolTema.innerText = "Mode Terang";
-  } else {
-    tombolTema.innerText = "Mode Gelap";
-  }
-});
-
-const tombolCV = document.getElementById("download-cv");
-if (tombolCV) {
-  tombolCV.addEventListener("click", function (e) {
-    e.preventDefault();
-    alert("File CV sedang disiapkan!");
-  });
-}
-
-// Ambil elemen tombol
-const btnBackToTop = document.getElementById("btn-back-to-top");
-
-// Jalankan fungsi saat pengguna menggulir layar
-window.onscroll = function() {
-    scrollFunction();
-};
-
-function scrollFunction() {
-    // Tombol muncul jika scroll lebih dari 300px dari atas
-    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-        btnBackToTop.style.display = "block";
-    } else {
-        btnBackToTop.style.display = "none";
-    }
-}
-
-// Logika ketika tombol diklik
-btnBackToTop.addEventListener("click", function() {
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth" // Efek gulir halus
-    });
-});
-
-// --- Fitur API GitHub ---
-async function hubungkanGitHub() {
-  const username = "AmbonOrang"; // Username GitHub kamu
-  try {
-    const respon = await fetch(`https://api.github.com/users/${username}`);
-    if (!respon.ok) throw new Error("User tidak ditemukan");
-    
-    const data = await respon.json();
-
-    // Memasukkan data ke HTML
-    document.getElementById("gh-img").src = data.avatar_url;
-    document.getElementById("gh-name").innerText = data.name || data.login;
-    document.getElementById("gh-bio").innerText = data.bio || "Tidak ada bio.";
-    document.getElementById("gh-repos").innerText = `Public Repos: ${data.public_repos}`;
-    document.getElementById("gh-followers").innerText = `Followers: ${data.followers}`;
-
-  } catch (error) {
-    console.error("Gagal mengambil data GitHub:", error);
-    document.getElementById("gh-name").innerText = "Gagal memuat profil";
-  }
-}
-
-// Panggil fungsi saat halaman dimuat
 hubungkanGitHub();
 
-// ==========================================
-// 5. LOGIKA HAMBURGER MENU
-// ==========================================
-// Logika Hamburger Menu
-const hamburger = document.getElementById('hamburger');
-const navMenu = document.getElementById('nav-menu');
-
-hamburger.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-    
-    // Opsional: Animasi hamburger jadi (X)
-    hamburger.classList.toggle('toggle');
+AOS.init({
+  duration: 1000,
+  once: true
 });
 
-// Tutup menu saat salah satu link diklik (untuk UX HP yang lebih baik)
-document.querySelectorAll('.nav-menu a').forEach(link => {
-    link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-    });
-});
-
-// ==========================================
-// 6. VALIDASI FORM KONTAK
-// ==========================================
-const formKontak = document.getElementById('form-kontak');
-
-if (formKontak) {
-  formKontak.addEventListener('submit', function(e) {
-    e.preventDefault(); // Mencegah halaman refresh
-
-    // Ambil nilai input
-    const nama = document.getElementById('nama-kontak').value;
-    const email = document.getElementById('email-kontak').value;
-    const pesan = document.getElementById('pesan-kontak').value;
-
-    // Validasi sederhana (Sudah dibantu atribut 'required' di HTML)
-    if (nama && email && pesan) {
-      alert(`Terima kasih, ${nama}! Pesan kamu telah diterima (Simulasi).`);
-      
-      // Reset form setelah berhasil
-      formKontak.reset();
-      
-      // Efek visual pada tombol
-      const tombol = document.getElementById('btn-kirim');
-      tombol.innerText = "Terkirim! ✅";
-      tombol.style.backgroundColor = "#3498db";
-      
-      setTimeout(() => {
-        tombol.innerText = "Kirim Pesan";
-        tombol.style.backgroundColor = "#27ae60";
-      }, 3000);
-    }
-  });
+// Load tema awal
+if (localStorage.getItem("tema") === "dark") {
+  document.body.classList.add("dark-theme");
+  updateIcon(true);
 }
-
-formKontak.addEventListener('submit', function(e) {
-  e.preventDefault();
-  const nama = document.getElementById('nama-kontak').value;
-  
-  // TAMBAHKAN INI UNTUK CEK:
-  console.log("Nama pengirim:", nama);
-  console.log("Email pengirim:", document.getElementById('email-kontak').value);
-  
-  alert("Berhasil!");
-});

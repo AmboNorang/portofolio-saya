@@ -5,39 +5,57 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portofolio Saya - Day 2</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://img.icons8.com/fluency/48/source-code.png" type="image/x-icon">
+
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Library -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
+
+  <!-- ==========================================
+       HEADER
+  ========================================== -->
   <header>
     <h1>Portofolio Saya</h1>
 
     <div class="nav-container">
-      <nav class="nav-menu" id="nav-menu">
+      <nav id="nav-menu" class="nav-menu">
         <a href="#tentang">Profil</a>
         <a href="#rencana-section">Rencana</a>
         <a href="#grafik-area">Progres</a>
         <a href="#timer-area">Timer</a>
       </nav>
 
-      <div class="hamburger" id="hamburger">
+      <div id="hamburger" class="hamburger">
         <span></span>
         <span></span>
         <span></span>
       </div>
     </div>
 
-    <button id="btn-tema">Mode Gelap</button>
+    <button id="btn-tema" class="theme-toggle">
+      <span id="theme-icon">🌙</span>
+    </button>
   </header>
 
   <hr />
 
+  <!-- ==========================================
+       PROFIL GITHUB
+  ========================================== -->
   <section id="tentang" class="section-fullwidth" data-aos="fade-down">
     <div class="inner-content">
       <h2>Profil GitHub</h2>
-      <img src="" alt="Foto Profil" class="profile-img" id="gh-img" />
+
+      <img id="gh-img" class="profile-img" src="" alt="Foto Profil" />
 
       <div class="bio-text">
         <p><strong id="gh-name">Memuat nama...</strong></p>
@@ -51,100 +69,141 @@
           </div>
         </div>
 
-        <a href="https://github.com/AmbonOrang" target="_blank" class="btn-cv">🌐 Kunjungi GitHub Saya</a>
+        <a href="https://github.com/AmbonOrang" target="_blank" class="btn-cv">
+          🌐 Kunjungi GitHub Saya
+        </a>
       </div>
     </div>
   </section>
 
+  <!-- ==========================================
+       MAIN CONTENT
+  ========================================== -->
   <main class="container">
-    <section id="rencana-section" data-aos="fade-up">
+
+    <!-- RENCANA -->
+    <section id="rencana-section" class="section-fullwidth" data-aos="fade-right">
       <h2>Rencana Belajar Minggu Ini</h2>
+
       <ul id="daftar-rencana"></ul>
+
       <div class="input-group">
         <input type="text" id="input-rencana" placeholder="Ketik rencana baru..." />
         <button id="btn-tambah">Tambah</button>
       </div>
+
       <br />
+
       <button class="btn-kontak">Hubungi Saya</button>
     </section>
 
-    <section id="grafik-area" data-aos="zoom-in">
-      <h3>📊 Progres Rencana Belajar</h3>
+    <!-- GRAFIK -->
+    <section id="grafik-area" class="section-fullwidth" data-aos="zoom-in">
+      <h2>📊 Progres Rencana Belajar</h2>
+
       <div class="chart-container">
         <canvas id="myChart"></canvas>
       </div>
     </section>
 
-    <section id="timer-area" data-aos="flip-left" class="timer-card">
+    <!-- TIMER -->
+    <section id="timer-area" class="timer-card" data-aos="flip-left">
       <h3>⏱️ Timer Belajar</h3>
+
       <div class="timer-input-wrapper">
         <input type="number" id="input-durasi" value="25" min="1" max="120" />
         <span>Menit</span>
       </div>
+
       <div id="display-timer">25:00</div>
+
       <div class="timer-controls">
         <button id="btn-start" class="btn-timer btn-start">Mulai</button>
         <button id="btn-pause" class="btn-timer btn-pause">Jeda</button>
-        <button id="btn-reset-timer" class="btn-timer btn-reset">
-          Reset
-        </button>
+        <button id="btn-reset-timer" class="btn-timer btn-reset">Reset</button>
       </div>
     </section>
+
   </main>
 
-  <section id="quote-area" class="section-fullwidth" data-aos="fade-up">
+  <!-- ==========================================
+       QUOTE
+  ========================================== -->
+  <section id="quote-area" class="section-fullwidth" data-aos="fade-up" data-aos-delay="200">
     <h3>💡 Kutipan Inspiratif</h3>
     <p id="teks-quote">Sedang mengambil kutipan...</p>
     <small id="penulis-quote"></small>
+
     <br /><br />
+
     <button id="btn-quote">Ganti Kutipan</button>
   </section>
 
   <hr />
 
+  <!-- ==========================================
+       FORM KONTAK
+  ========================================== -->
   <section id="kontak-area" class="section-fullwidth" data-aos="fade-up">
     <h3>✉️ Hubungi Saya</h3>
+
     <form id="form-kontak">
       <div class="input-group">
-        <input type="text" id="nama-kontak" placeholder="Nama Anda" required>
+        <input type="text" id="nama-kontak" placeholder="Nama Anda" required />
       </div>
+
       <div class="input-group">
-        <input type="email" id="email-kontak" placeholder="Email Anda" required>
+        <input type="email" id="email-kontak" placeholder="Email Anda" required />
       </div>
+
       <div class="input-group">
-        <textarea id="pesan-kontak" placeholder="Pesan Anda" rows="4" required></textarea>
+        <textarea id="pesan-kontak" rows="4" placeholder="Pesan Anda" required></textarea>
       </div>
+
       <button type="submit" id="btn-kirim">Kirim Pesan</button>
     </form>
   </section>
 
+  <!-- ==========================================
+       FOOTER
+  ========================================== -->
   <footer class="footer-modern">
     <div class="footer-content">
       <h3>Muhammad Hashiif</h3>
+
       <p>
         Frontend Developer Enthusiast yang berfokus pada pembangunan aplikasi
         web yang interaktif dan responsif.
       </p>
+
       <div class="social-links">
         <a href="https://github.com/AmbonOrang" target="_blank">📁 GitHub</a>
         <a href="#">💼 LinkedIn</a>
         <a href="mailto:emailkamu@gmail.com">✉️ Kontak</a>
       </div>
+
       <hr class="footer-divider" />
+
       <p class="copyright">
         &copy; 2026 Muhammad Hashiif. Dibuat dengan semangat belajar.
       </p>
     </div>
   </footer>
 
+  <!-- ==========================================
+       BACK TO TOP
+  ========================================== -->
+  <button id="btn-back-to-top" title="Kembali ke atas">↑</button>
+
+  <!-- ==========================================
+       SCRIPT
+  ========================================== -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
     AOS.init({ duration: 1000, once: true });
   </script>
 
-  <button id="btn-back-to-top" title="Kembali ke atas">↑</button>
+  <script src="script.js" defer></script>
 
-  <script src="script.js"></script>
 </body>
-
 </html>
