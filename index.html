@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portofolio Saya - Day 2</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+</head>
+
+<body>
+  <header>
+    <h1>Portofolio Saya</h1>
+    <nav>
+      <a href="#tentang">Profil</a> | <a href="#daftar-rencana">Rencana</a> |
+      <a href="#grafik-area">Progres</a> |
+      <a href="#timer-area">Timer</a>
+    </nav>
+    <button id="btn-tema">Mode Gelap</button>
+  </header>
+
+  <hr />
+
+  <section id="tentang" class="section-fullwidth" data-aos="fade-down">
+    <div class="inner-content">
+      <h2>Profil GitHub</h2>
+      <img src="" alt="Foto Profil" class="profile-img" id="gh-img" />
+
+      <div class="bio-text">
+        <p><strong id="gh-name">Memuat nama...</strong></p>
+        <p id="gh-bio">Sedang mengambil bio dari GitHub...</p>
+
+        <div class="skills-container">
+          <h3>Statistik Live</h3>
+          <div class="skills-icons">
+            <span id="gh-repos">Repo: -</span>
+            <span id="gh-followers">Followers: -</span>
+          </div>
+        </div>
+
+        <a href="https://github.com/AmbonOrang" target="_blank" class="btn-cv">🌐 Kunjungi GitHub Saya</a>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+    <section id="rencana-section" data-aos="fade-up">
+      <h2>Rencana Belajar Minggu Ini</h2>
+      <ul id="daftar-rencana"></ul>
+      <div class="input-group">
+        <input type="text" id="input-rencana" placeholder="Ketik rencana baru..." />
+        <button id="btn-tambah">Tambah</button>
+      </div>
+      <br />
+      <button class="btn-kontak">Hubungi Saya</button>
+    </section>
+
+    <section id="grafik-area" data-aos="zoom-in">
+      <h3>📊 Progres Rencana Belajar</h3>
+      <div class="chart-container">
+        <canvas id="myChart"></canvas>
+      </div>
+    </section>
+
+    <section id="timer-area" data-aos="flip-left" class="timer-card">
+      <h3>⏱️ Timer Belajar</h3>
+      <div class="timer-input-wrapper">
+        <input type="number" id="input-durasi" value="25" min="1" max="120" />
+        <span>Menit</span>
+      </div>
+      <div id="display-timer">25:00</div>
+      <div class="timer-controls">
+        <button id="btn-start" class="btn-timer btn-start">Mulai</button>
+        <button id="btn-pause" class="btn-timer btn-pause">Jeda</button>
+        <button id="btn-reset-timer" class="btn-timer btn-reset">
+          Reset
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <section id="quote-area" class="section-fullwidth" data-aos="fade-up">
+    <h3>💡 Kutipan Inspiratif</h3>
+    <p id="teks-quote">Sedang mengambil kutipan...</p>
+    <small id="penulis-quote"></small>
+    <br /><br />
+    <button id="btn-quote">Ganti Kutipan</button>
+  </section>
+
+  <hr />
+
+  <footer class="footer-modern">
+    <div class="footer-content">
+      <h3>Muhammad Hashiif</h3>
+      <p>
+        Frontend Developer Enthusiast yang berfokus pada pembangunan aplikasi
+        web yang interaktif dan responsif.
+      </p>
+      <div class="social-links">
+        <a href="https://github.com/AmbonOrang" target="_blank">📁 GitHub</a>
+        <a href="#">💼 LinkedIn</a>
+        <a href="mailto:emailkamu@gmail.com">✉️ Kontak</a>
+      </div>
+      <hr class="footer-divider" />
+      <p class="copyright">
+        &copy; 2026 Muhammad Hashiif. Dibuat dengan semangat belajar.
+      </p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1000, once: true });
+  </script>
+
+  <button id="btn-back-to-top" title="Kembali ke atas">↑</button>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
