@@ -77,7 +77,7 @@ function tampilkanRencana() {
       if (!rencanaBelajar[index].includes("(Selesai!)")) {
         rencanaBelajar[index] = item + " (Selesai!)";
         jumlahSelesai++;
-        localStorage.setItem("jumlahSelesai", jumlahSelesai);
+        localStorage.setItem("jumlahSelesai", JSON.stringify(jumlahSelesai));
       } else {
         if (confirm("Hapus rencana ini dari daftar?")) {
           rencanaBelajar.splice(index, 1);
@@ -154,11 +154,12 @@ function jalankanTimer() {
       updateTampilanTimer();
 
       const timerCard = document.getElementById("timer-area");
-
-      if (waktuTersisa <= 10) {
-        timerCard.classList.add("timer-warning");
-      } else {
-        timerCard.classList.remove("timer-warning");
+      if (timerCard) {
+        if (waktuTersisa <= 10) {
+          timerCard.classList.add("timer-warning");
+        } else {
+          timerCard.classList.remove("timer-warning");
+        }
       }
     } else {
       clearInterval(timerBerjalan);
@@ -249,9 +250,8 @@ function updateGrafik() {
 // 8. GITHUB API
 // ==========================================
 async function hubungkanGitHub() {
-  const nameEl = document.getElementById("nama-github");
-  // Beri efek loading sebelum fetch
-  if (nameEl) nameEl.classList.add("skeleton"); 
+  const nameEl = document.getElementById("gh-name");  // Beri efek loading sebelum fetch
+  if (nameEl) nameEl.classList.add("skeleton");
 
   try {
     const respon = await fetch("https://api.github.com/users/AmbonOrang");
@@ -259,8 +259,8 @@ async function hubungkanGitHub() {
 
     // Hapus efek skeleton setelah data dapat
     if (nameEl) {
-        nameEl.classList.remove("skeleton");
-        nameEl.innerText = data.name || data.login;
+      nameEl.classList.remove("skeleton");
+      nameEl.innerText = data.name || data.login;
     }
     // Lanjutkan kode untuk elemen lainnya
   } catch (error) {
@@ -386,4 +386,27 @@ AOS.init({
 if (localStorage.getItem("tema") === "dark") {
   document.body.classList.add("dark-theme");
   updateIcon(true);
+}
+
+async function ambilQuote() {
+  const teksQuote = document.getElementById("teks-quote");
+  const penulisQuote = document.getElementById("penulis-quote");
+  const quoteLokal = [
+    { content: "Coding bukan cuma soal sintaks, tapi soal memecahkan masalah nyata.", author: "Hashiif" },
+    { content: "Progres sekecil apa pun adalah langkah menuju selesai.", author: "Anonim" },
+    { content: "Teknologi harusnya membantu manusia menjaga lingkungan.", author: "Hashiif" }
+  ];
+
+  try {
+    teksQuote.innerText = "Memuat nasihat bijak...";
+    const respon = await fetch("https://api.quotable.io/random");
+    if (!respon.ok) throw new Error("Gagal terhubung API");
+    const data = await respon.json();
+    if (teksQuote) teksQuote.innerText = `"${data.content}"`;
+    if (penulisQuote) penulisQuote.innerText = `- ${data.author}`;
+  } catch (error) {
+    const random = quoteLokal[Math.floor(Math.random() * quoteLokal.length)];
+    if (teksQuote) teksQuote.innerText = `"${random.content}"`;
+    if (penulisQuote) penulisQuote.innerText = `- ${random.author}`;
+  }
 }
