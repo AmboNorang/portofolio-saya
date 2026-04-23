@@ -56,6 +56,23 @@ function simpanKeMemori() {
 }
 
 // ==========================================
+// Fungsi untuk memperbarui dashboard
+function updateDashboard() {
+  const total = rencanaBelajar.length;
+  // Menghitung berapa banyak yang punya teks "(Selesai!)"
+  const selesai = rencanaBelajar.filter(item => 
+    typeof item === 'string' ? item.includes("(Selesai!)") : item.selesai
+  ).length;
+
+  const persen = total > 0 ? Math.round((selesai / total) * 100) : 0;
+
+  // Update elemen dashboard
+  document.getElementById("stat-total").innerText = total;
+  document.getElementById("stat-selesai").innerText = selesai;
+  document.getElementById("stat-persen").innerText = persen + "%";
+}
+
+// ==========================================
 // 4. TODO LIST
 // ==========================================
 function tampilkanRencana() {
@@ -91,9 +108,15 @@ function tampilkanRencana() {
     listContainer.appendChild(li);
   });
 
+  // Panggil updateDashboard untuk memperbarui informasi statistik
+  updateDashboard();
+
+  // Pastikan grafik diperbarui jika ada
   if (typeof myChart !== "undefined") updateGrafik();
 }
 
+// ==========================================
+// Fungsi untuk menambah rencana baru
 function tambahRencanaBaru() {
   if (!inputRencana) return;
 
@@ -111,22 +134,37 @@ function tambahRencanaBaru() {
 }
 
 // ==========================================
+// Pastikan updateDashboard dipanggil saat halaman pertama kali dimuat
+document.addEventListener("DOMContentLoaded", () => {
+  tampilkanRencana();
+  updateDashboard();
+});
+
+// ==========================================
 // 5. QUOTE API
 // ==========================================
 async function ambilQuote() {
+  const teksQuote = document.getElementById("teks-quote");
+  const penulisQuote = document.getElementById("penulis-quote");
+
+  const quoteLokal = [
+    { content: "Coding bukan cuma soal sintaks, tapi soal memecahkan masalah nyata.", author: "Hashiif" },
+    { content: "Progres sekecil apa pun adalah langkah menuju selesai.", author: "Anonim" },
+    { content: "Teknologi harusnya membantu manusia menjaga lingkungan.", author: "Hashiif" }
+  ];
+
   try {
     teksQuote.innerText = "Memuat nasihat bijak...";
-    const respon = await fetch("https://api.adviceslip.com/advice");
-
-    if (!respon.ok) throw new Error("Gagal terhubung");
+    const respon = await fetch("https://api.quotable.io/random");
+    if (!respon.ok) throw new Error("Gagal terhubung API");
 
     const data = await respon.json();
-
-    teksQuote.innerText = `"${data.slip.advice}"`;
-    penulisQuote.innerText = "- Advice Slip";
+    if (teksQuote) teksQuote.innerText = `"${data.content}"`;
+    if (penulisQuote) penulisQuote.innerText = `- ${data.author}`;
   } catch (error) {
-    teksQuote.innerText = "Gagal mengambil kutipan.";
-    console.error(error);
+    const random = quoteLokal[Math.floor(Math.random() * quoteLokal.length)];
+    if (teksQuote) teksQuote.innerText = `"${random.content}"`;
+    if (penulisQuote) penulisQuote.innerText = `- ${random.author}`;
   }
 }
 
@@ -388,25 +426,23 @@ if (localStorage.getItem("tema") === "dark") {
   updateIcon(true);
 }
 
-async function ambilQuote() {
-  const teksQuote = document.getElementById("teks-quote");
-  const penulisQuote = document.getElementById("penulis-quote");
-  const quoteLokal = [
-    { content: "Coding bukan cuma soal sintaks, tapi soal memecahkan masalah nyata.", author: "Hashiif" },
-    { content: "Progres sekecil apa pun adalah langkah menuju selesai.", author: "Anonim" },
-    { content: "Teknologi harusnya membantu manusia menjaga lingkungan.", author: "Hashiif" }
-  ];
-
-  try {
-    teksQuote.innerText = "Memuat nasihat bijak...";
-    const respon = await fetch("https://api.quotable.io/random");
-    if (!respon.ok) throw new Error("Gagal terhubung API");
-    const data = await respon.json();
-    if (teksQuote) teksQuote.innerText = `"${data.content}"`;
-    if (penulisQuote) penulisQuote.innerText = `- ${data.author}`;
-  } catch (error) {
-    const random = quoteLokal[Math.floor(Math.random() * quoteLokal.length)];
-    if (teksQuote) teksQuote.innerText = `"${random.content}"`;
-    if (penulisQuote) penulisQuote.innerText = `- ${random.author}`;
+// Fitur Pintu Rahasia: Tekan 'Shift + A' untuk masuk ke Admin
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'A' && e.shiftKey) {
+      // Kita gunakan SweetAlert2 yang sudah kita pasang kemarin agar keren
+      Swal.fire({
+          title: 'Akses Admin',
+          input: 'password',
+          inputLabel: 'Masukkan Password',
+          inputPlaceholder: 'Password-nya: 1234',
+          showCancelButton: true,
+          confirmButtonColor: '#2c3e50'
+      }).then((result) => {
+          if (result.value === '1234') { // Ganti '1234' dengan password pilihanmu
+              window.location.href = 'admin.html';
+          } else if (result.value) {
+              Swal.fire('Salah!', 'Password yang kamu masukkan salah.', 'error');
+          }
+      });
   }
-}
+});

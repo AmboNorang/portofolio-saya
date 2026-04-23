@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Portofolio</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-container { max-width: 1000px; margin: 50px auto; padding: 20px; }
+        .admin-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .btn-logout { background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body style="background-color: #f0f2f5;">
+    <div class="admin-container">
+        <header style="flex-direction: row; justify-content: space-between; padding: 20px;">
+            <h2>Panel Admin Portofolio</h2>
+            <button class="btn-logout" onclick="location.href='index.html'">Keluar ke Web</button>
+        </header>
+
+        <div class="admin-card">
+            <h3>📈 Ringkasan Data</h3>
+            <p>Total Rencana: <span id="total-rencana">0</span></p>
+            <p>Proyek Terdaftar: <span id="total-proyek">2</span></p>
+        </div>
+
+        <div class="admin-card">
+            <h3>📝 Kelola Rencana Belajar</h3>
+            <div id="admin-list-rencana">
+                </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
